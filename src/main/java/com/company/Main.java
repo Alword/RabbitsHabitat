@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.application.Application;
-
 import javax.swing.*;
 import java.awt.*;
 
