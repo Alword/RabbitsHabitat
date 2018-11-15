@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Пример");
         SimulationApplet applet = new SimulationApplet();
-        frame.setSize(800, 600);
+        frame.setSize(AppSettings.WindowWidth, AppSettings.WindowHeight);
         frame.setLocation(60,100);
         frame.getContentPane().add(applet);
         applet.init();
