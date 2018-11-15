@@ -5,9 +5,9 @@ import java.io.IOException;
 
 public class OrdinaryRabbit extends BaseRabbit {
 
-    private final int MIN_STEPS = 4;
+    private final int MIN_STEPS = 40;
     private int dir = 0;
-    private int steps = 4;
+    private int steps = MIN_STEPS;
 
     public static int OrdinaryCount = 0;
 
