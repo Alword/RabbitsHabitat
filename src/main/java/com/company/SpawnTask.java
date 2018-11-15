@@ -42,7 +42,7 @@ public class SpawnTask implements Runnable {
     public void run() {
         while (true) {
             sleep(100);
-            System.out.println("SpawnTask");
+            //System.out.println("SpawnTask");
             if (iSsimulated) {
                 try {
                     SimulateRabbits();
