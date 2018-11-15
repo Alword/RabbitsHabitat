@@ -8,32 +8,25 @@ import java.net.URL;
 
 public class Habitat {
 
-    static final String dir = "file:///C:/Users/aasle/Downloads/";
 
-
-    public static Image getOrdinaryRabbitPic() {
-        return loadImg(dir + "lab4OrdinaryRabbit.png");
+    public static Image getOrdinaryRabbitPic() throws IOException {
+        return loadImg(Main.class.getClassLoader().getResource("lab4OrdinaryRabbit.png"));
     }
 
-    public static Image getAlbinoRabbitPic() {
-        return loadImg(dir + "lab4AlbinoRabbit.png");
+    public static Image getAlbinoRabbitPic() throws IOException {
+        return loadImg(Main.class.getClassLoader().getResource("lab4AlbinoRabbit.png"));
     }
 
     //util
-    private static Image loadImg(String imagePath) {
-        Image im = null;
+    private static Image loadImg(String imagePath) throws IOException {
         URL url = null;
-        try {
-            url = new URL(imagePath);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        url = new URL(imagePath);
+        return loadImg(url);
+    }
 
-        try {
-            im = ImageIO.read(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static Image loadImg(URL imageURL) throws IOException {
+        Image im = null;
+        im = ImageIO.read(imageURL);
         return im;
     }
 

@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class SpawnTask implements Runnable {
@@ -56,11 +57,16 @@ public class SpawnTask implements Runnable {
     private void SimulateRabbits() throws InterruptedException {
         currentTick = currentTick + 1 % 100;
         if (BaseRabbit.Rabbits == null || BaseRabbit.Rabbits.size() < AppSettings.MaxRabbits) {
-            if (IsOrdinaryRabbitAppear()) {
-                new OrdinaryRabbit();
+            try {
+                if (IsOrdinaryRabbitAppear()) {
+                    new OrdinaryRabbit();
+                }
+                if (IsAlbinoRabbitAppear()) {
+                    new AlbinoRabbit();
+                }
             }
-            if (IsAlbinoRabbitAppear()) {
-                new AlbinoRabbit();
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
         BaseRabbit.Rabbits.removeIf(r -> !((IBehaviour) r).isAppear());
