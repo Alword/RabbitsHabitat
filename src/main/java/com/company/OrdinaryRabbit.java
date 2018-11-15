@@ -1,6 +1,7 @@
 package com.company;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class OrdinaryRabbit extends BaseRabbit {
 
@@ -10,7 +11,7 @@ public class OrdinaryRabbit extends BaseRabbit {
 
     public static int OrdinaryCount = 0;
 
-    public OrdinaryRabbit() {
+    public OrdinaryRabbit() throws IOException {
         OrdinaryCount++;
         myImage = Habitat.getOrdinaryRabbitPic();
         lifeTime = (int) ((Math.random() * 20) + 1);

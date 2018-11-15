@@ -10,7 +10,7 @@ public class MoveTask implements Runnable {
     public void run() {
         while (true) {
             sleep(1000/45);
-            System.out.println("MoveTask");
+            //System.out.println("MoveTask");
             if (!isCancel) {
                 int count = BaseRabbit.Rabbits.size();
                 for (int i = 0; i < count; i++) {

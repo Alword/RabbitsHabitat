@@ -1,10 +1,12 @@
 package com.company;
 
+import java.io.IOException;
+
 public class AlbinoRabbit extends OrdinaryRabbit {
 
     public static int AlbinoCount = 0;
 
-    public AlbinoRabbit() {
+    public AlbinoRabbit() throws IOException {
         AlbinoCount++;
         myImage = Habitat.getAlbinoRabbitPic();
         lifeTime = (int) ((Math.random() * 40) + 1);
