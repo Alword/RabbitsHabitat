@@ -1,17 +1,23 @@
-package com.company;
+package com.company.Services;
+
+import com.company.AppSettings;
+import com.company.interfaces.IBehaviour;
+import com.company.models.AlbinoRabbit;
+import com.company.models.BaseRabbit;
+import com.company.models.OrdinaryRabbit;
 
 import java.io.IOException;
 import java.util.Random;
 
 public class SpawnTask implements Runnable {
 
-    public boolean iSsimulated = true;
+    public boolean iSimulated = true;
     int currentTick = 0;
 
     ///Настройки для кроликов
     ///Обычный кролик
     static int N1 = 1;
-    static float P = 0.5F;
+    static float P = 0.2F;
 
     ///Кролик альбинос
     static int N2 = 2;
@@ -21,7 +27,7 @@ public class SpawnTask implements Runnable {
 
     public boolean IsOrdinaryRabbitAppear() {
         float generated = generator.nextFloat();
-        return true; //generated > P && currentTick % N1 == 0;
+        return generated > P && currentTick % N1 == 0;
     }
 
     public boolean IsAlbinoRabbitAppear() {
@@ -32,7 +38,7 @@ public class SpawnTask implements Runnable {
 
             float generated = (float) albcount / (ocount - albcount);
             boolean isSpawn = generated < K && currentTick % N2 == 0;
-            return true;
+            return isSpawn;
         } catch (Exception ex) {
             return false;
         }
@@ -43,8 +49,7 @@ public class SpawnTask implements Runnable {
     public void run() {
         while (true) {
             sleep(100);
-            //System.out.println("SpawnTask");
-            if (iSsimulated) {
+            if (iSimulated) {
                 try {
                     SimulateRabbits();
                 } catch (InterruptedException e) {
@@ -70,12 +75,12 @@ public class SpawnTask implements Runnable {
             }
         }
         BaseRabbit.Rabbits.removeIf(r -> !((IBehaviour) r).isAppear());
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
-    private void sleep(int mili) {
+    private void sleep(int milliseconds) {
         try {
-            Thread.sleep(mili);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
