@@ -15,18 +15,5 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         applet.start();
-
-
-        /*
-
-
-        SimulationApplet frame = new SimulationApplet();
-        frame.setSize(1800, 800);
-        frame.setLocation(60,100);
-        frame.init();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.start();
-        */
     }
 }
