@@ -1,11 +1,15 @@
 package com.company;
 
-import javax.swing.*;
+import com.company.Services.MoveTask;
+import com.company.Services.SpawnTask;
+import com.company.models.AlbinoRabbit;
+import com.company.models.BaseRabbit;
+import com.company.models.OrdinaryRabbit;
+
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.peer.LightweightPeer;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Vector;
@@ -28,6 +32,8 @@ public class SimulationApplet extends Applet {
     private Thread spawnThread;
 
     public SimulationApplet() {
+
+        Habitat x = new Habitat();
 
         KeyAdapter textSimulationButtonHandler = new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -61,7 +67,7 @@ public class SimulationApplet extends Applet {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_B:
-                        isStartSimulation = true;
+                        isStartSimulation = !isStartSimulation;
                         break;
                 }
             }
@@ -97,7 +103,7 @@ public class SimulationApplet extends Applet {
         float width = AppSettings.WindowWidth;
         float height = AppSettings.WindowHeight;
 
-        Image offScreenImage = createImage((int)width, (int)height);
+        Image offScreenImage = createImage((int) width, (int) height);
         Graphics offScreenGraphics = offScreenImage.getGraphics();
 
         if (BaseRabbit.Rabbits != null) {
@@ -113,8 +119,7 @@ public class SimulationApplet extends Applet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             currentRabbitsCount = 0;
         }
 
@@ -126,7 +131,6 @@ public class SimulationApplet extends Applet {
 
         g.drawImage(offScreenImage, 0, 0, null);
 
-        //logicSleep();
         updateFPSCounter();
         repaint();
 
@@ -147,7 +151,7 @@ public class SimulationApplet extends Applet {
      * forwarded to that child.
      *
      * @param g the specified Graphics window
-     * @see   Component#update(Graphics)
+     * @see Component#update(Graphics)
      */
     @Override
     public void update(Graphics g) {
@@ -161,37 +165,52 @@ public class SimulationApplet extends Applet {
         moveThread.start();
         spawnThread.start();
         isStarted = true;
-        //repaint();
     }
 
-    private void logicSleep() {
+    private void logicSleep(int milliseconds) {
         try {
-            Thread.sleep(1000/40);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     private void statistic(Graphics g) {
-        Point pos = new Point(getWidth() / 2, 0);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-        g.drawString("Обычных кроликов:" + (OrdinaryRabbit.OrdinaryCount - AlbinoRabbit.AlbinoCount), pos.x, pos.y += 20);
 
-        g.setColor(Color.MAGENTA);
-        g.setFont(new Font("Verdana", Font.PLAIN, 24));
-        g.drawString("Кроликов альбиносов:" + AlbinoRabbit.AlbinoCount, pos.x, pos.y += 20);
-
-        g.setColor(Color.GREEN);
+        int padding = 30;
         g.setFont(new Font("Arial", Font.PLAIN, 24));
-        g.drawString("Всего кроликов:" + OrdinaryRabbit.OrdinaryCount, pos.x, pos.y += 20);
 
-        g.setColor(Color.red);
-        g.setFont(new Font("Comic Sans", Font.PLAIN, 24));
-        g.drawString("Движение:" + isMoving, pos.x, pos.y += 20);
 
-        g.setColor(Color.YELLOW);
-        g.setFont(new Font("Comic Sans", Font.PLAIN, 24));
-        g.drawString("FPS: " + Math.round(fps/10)*10, pos.x, pos.y += 20);
+        Point pos = new Point(getWidth() / 2, 0);
+
+        if (OrdinaryRabbit.OrdinaryRabbits != null) {
+            //g.setFont(new Font("Arial", Font.PLAIN, 24));
+            g.drawString("Обычных кроликов:" + (OrdinaryRabbit.OrdinaryRabbits.size()), pos.x, pos.y += padding);
+        }
+
+        if (AlbinoRabbit.AlbinoRabbits != null) {
+            //g.setColor(Color.MAGENTA);
+            //g.setFont(new Font("Arial", Font.PLAIN, 24));
+            g.drawString("Кроликов альбиносов:" + AlbinoRabbit.AlbinoRabbits.size(), pos.x, pos.y += padding);
+        }
+
+        if (BaseRabbit.Rabbits != null) {
+            //g.setColor(Color.GREEN);
+            //g.setFont(new Font("Arial", Font.PLAIN, 24));
+            g.drawString("Всего кроликов:" + BaseRabbit.Rabbits.size(), pos.x, pos.y += padding);
+        }
+
+        //g.setColor(Color.red);
+        //g.setFont(new Font("Comic Sans", Font.PLAIN, 24));
+        g.drawString("Движение:" + isMoving, pos.x, pos.y += padding);
+
+        //g.setColor(Color.YELLOW);
+        //g.setFont(new Font("Comic Sans", Font.PLAIN, 24));
+        g.drawString("FPS: " + Math.round(fps / 10) * 10, pos.x, pos.y += padding);
+
+        //g.setColor(Color.red);
+        //g.setFont(new Font("Comic Sans", Font.PLAIN, 24));
+        g.drawString("Симуляция:" + isStartSimulation, pos.x, pos.y += padding);
     }
 
     private void switchMove() {
@@ -199,6 +218,6 @@ public class SimulationApplet extends Applet {
     }
 
     private void switchSpawn() {
-        spawnTask.iSsimulated = isStartSimulation;
+        spawnTask.iSimulated = isStartSimulation;
     }
 }

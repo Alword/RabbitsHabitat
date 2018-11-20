@@ -1,10 +1,15 @@
-package com.company;
+package com.company.models;
 
-import java.awt.*;
+import com.company.AppSettings;
+import com.company.Habitat;
+import com.company.models.BaseRabbit;
+
 import java.io.IOException;
+import java.util.Vector;
 
 public class OrdinaryRabbit extends BaseRabbit {
 
+    public static Vector<OrdinaryRabbit> OrdinaryRabbits = null;
     private final int MIN_STEPS = 40;
     private int dir = 0;
     private int steps = MIN_STEPS;
@@ -13,8 +18,12 @@ public class OrdinaryRabbit extends BaseRabbit {
 
     public OrdinaryRabbit() throws IOException {
         OrdinaryCount++;
-        myImage = Habitat.getOrdinaryRabbitPic();
-        lifeTime = (int) ((Math.random() * 20) + 1);
+        lifeTime = (int) ((Math.random() * 20) + 20);
+
+        if (OrdinaryRabbits == null) {
+            OrdinaryRabbits = new Vector<OrdinaryRabbit>();
+        }
+        OrdinaryRabbits.add(this);
     }
 
     @Override
@@ -42,19 +51,35 @@ public class OrdinaryRabbit extends BaseRabbit {
     }
 
     protected void moveUp() {
-        margin.y--;
+        if (margin.y > 0) {
+            margin.y--;
+        } else {
+            margin.y++;
+        }
     }
 
     protected void moveLeft() {
-        margin.x--;
+        if (margin.x > 0) {
+            margin.x--;
+        } else {
+            margin.x++;
+        }
     }
 
     protected void moveRight() {
-        margin.x++;
+        if (margin.x < AppSettings.getWidthPadding()) {
+            margin.x++;
+        } else {
+            margin.x--;
+        }
     }
 
     protected void moveDown() {
-        margin.y++;
+        if (margin.y < AppSettings.getHeightPadding()) {
+            margin.y++;
+        } else {
+            margin.y--;
+        }
     }
 
     @Override
@@ -62,6 +87,7 @@ public class OrdinaryRabbit extends BaseRabbit {
         boolean isAppear = lifeTime-- > 0;
         if (!isAppear) {
             OrdinaryCount--;
+            OrdinaryRabbits.remove(this);
         }
         return isAppear;
     }

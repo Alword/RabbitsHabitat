@@ -1,6 +1,6 @@
-package com.company;
+package com.company.Services;
 
-import java.util.Vector;
+import com.company.models.BaseRabbit;
 
 public class MoveTask implements Runnable {
 

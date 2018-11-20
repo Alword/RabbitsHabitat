@@ -1,11 +1,16 @@
-package com.company;
+package com.company.models;
+
+import com.company.AppSettings;
+import com.company.Habitat;
+import com.company.interfaces.IBehaviour;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Vector;
 
 ///The Super Rabbit's class
-public abstract class BaseRabbit implements IBehaviour {
+public abstract class BaseRabbit implements IBehaviour, Serializable {
 
     protected float speed = 1;
     protected Point margin = null;
@@ -14,7 +19,7 @@ public abstract class BaseRabbit implements IBehaviour {
 
     protected int lifeTime;
 
-    protected Image myImage = null;
+    protected String myImagePath = null;
 
     public BaseRabbit() {
         margin = new Point((int) (Math.random() * AppSettings.WindowWidth),
@@ -33,7 +38,7 @@ public abstract class BaseRabbit implements IBehaviour {
 
     //IBehavior
     public Image getMyImage() {
-        return myImage;
+        return Habitat.OrdinaryRabbitImage;
     }
 
     //IBehavior
