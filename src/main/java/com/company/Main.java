@@ -35,7 +35,7 @@ public class Main {
 
         JMenuItem console = new JMenuItem("Открыть консоль");
         commands.add(console);
-        console.addActionListener(new ConsoleExecutor());
+        console.addActionListener(new ConsoleExecutor(frame));
 
         applet.init();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

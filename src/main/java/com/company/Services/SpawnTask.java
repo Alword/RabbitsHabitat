@@ -33,12 +33,16 @@ public class SpawnTask implements Runnable {
     public boolean IsAlbinoRabbitAppear() {
 
         try {
-            float ocount = OrdinaryRabbit.OrdinaryCount;
-            int albcount = AlbinoRabbit.AlbinoCount;
+            if (OrdinaryRabbit.OrdinaryRabbits != null) {
+                float ocount = OrdinaryRabbit.OrdinaryRabbits.size();
+                int albcount = AlbinoRabbit.AlbinoCount;
 
-            float generated = (float) albcount / (ocount - albcount);
-            boolean isSpawn = generated < K && currentTick % N2 == 0;
-            return isSpawn;
+                float generated = (float) albcount / (ocount - albcount);
+                boolean isSpawn = generated < K && currentTick % N2 == 0;
+                return isSpawn;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             return false;
         }
@@ -69,8 +73,7 @@ public class SpawnTask implements Runnable {
                 if (IsAlbinoRabbitAppear()) {
                     new AlbinoRabbit();
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

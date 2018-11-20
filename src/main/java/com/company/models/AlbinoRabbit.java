@@ -22,8 +22,6 @@ public class AlbinoRabbit extends OrdinaryRabbit {
         if (AlbinoRabbits == null) {
             AlbinoRabbits = new Vector<AlbinoRabbit>();
         }
-
-        OrdinaryCount--;
         AlbinoRabbits.add(this);
         OrdinaryRabbits.remove(this);
     }
