@@ -77,8 +77,10 @@ public class SpawnTask implements Runnable {
                 e.printStackTrace();
             }
         }
-        BaseRabbit.Rabbits.removeIf(r -> !((IBehaviour) r).isAppear());
-        Thread.sleep(500);
+        if (BaseRabbit.Rabbits != null && BaseRabbit.Rabbits.size() > 0) {
+            BaseRabbit.Rabbits.removeIf(r -> !((IBehaviour) r).isAppear());
+        }
+        Thread.sleep(300);
     }
 
     private void sleep(int milliseconds) {

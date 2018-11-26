@@ -7,6 +7,7 @@ import java.io.PipedReader;
 import java.io.PipedWriter;
 import java.io.PrintWriter;
 
+//This is to check event when hit Enter button
 public class NewLineAdaptor extends KeyAdapter {
 
     private JTextArea area = null;
@@ -22,8 +23,11 @@ public class NewLineAdaptor extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                String x = area.getText().split("\\n")[area.getLineCount() - 1];
-                printWriter.write(x);
+                String areaText = area.getText();
+                String x = areaText.split("\\n")[area.getLineCount() - 1];
+                if (x.length() > 0) {
+                    printWriter.write(x);
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

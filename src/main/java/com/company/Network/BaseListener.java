@@ -2,9 +2,8 @@ package com.company.Network;
 
 import com.company.Network.Interfaces.IObjectListener;
 
-import java.net.Socket;
+public abstract class BaseListener implements IObjectListener{
 
-public class SampleListener implements IObjectListener{
     @Override
     public void onMessageReceived(Object sender, String msg) {
         //msg from initiator

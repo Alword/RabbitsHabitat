@@ -1,25 +1,32 @@
 package com.company.Services;
 
-import com.company.Services.Commands.ICommand;
-import com.company.Services.Commands.RabbitsCleanUpCommand;;
+import com.company.models.Commands.ConnectToServerCommand;
+import com.company.models.Commands.HelpCommand;
+import com.company.interfaces.ICommand;
+import com.company.models.Commands.RabbitsCleanUpCommand;;
+import javax.swing.*;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 import java.util.Vector;
 
-public class CommandParser extends Thread {
+public class ConsoleCommandParser extends Thread {
 
     private Vector<ICommand> RabbitsCommands = null;
     private PipedReader pr;
+    private JTextArea textArea = null;
 
-    public CommandParser(PipedWriter pw) {
+    public ConsoleCommandParser(PipedWriter pw, JTextArea textArea) {
+        this.textArea = textArea;
         connectPipes(pw);
         initializeCommands();
     }
 
     private void initializeCommands() {
         RabbitsCommands = new Vector<>();
-        RabbitsCommands.add(new RabbitsCleanUpCommand());
+        RabbitsCommands.add(new RabbitsCleanUpCommand(textArea));
+        RabbitsCommands.add(new HelpCommand(textArea, RabbitsCommands));
+        RabbitsCommands.add(new ConnectToServerCommand(textArea));
         //TODO more command
     }
 
@@ -66,6 +73,8 @@ public class CommandParser extends Thread {
     }
 
     private void invokeCommand(String msg) {
+        boolean isInvoked = false;
+
         String name = null;
         String[] args = null;
 
@@ -78,10 +87,18 @@ public class CommandParser extends Thread {
         //Check the command name if matches then invoke
         for (ICommand command :
                 RabbitsCommands) {
-            command.invoke(name, args);
+            isInvoked = command.invoke(name, args);
+            if (isInvoked)
+                break;
+        }
+
+        if (!isInvoked) {
+            textArea.append("Комманда не найдена\n");
         }
     }
 
     //Stream interface
-    PipedReader getStream() { return pr;}
+    PipedReader getStream() {
+        return pr;
+    }
 }

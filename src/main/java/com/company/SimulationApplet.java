@@ -28,12 +28,12 @@ public class SimulationApplet extends Applet {
     private MoveTask moveTask = null;
     private SpawnTask spawnTask = null;
 
-    private Thread moveThread;
-    private Thread spawnThread;
+    private Thread moveThread = null;
+    private Thread spawnThread = null;
 
     public SimulationApplet() {
 
-        Habitat x = new Habitat();
+        Habitat habitat = new Habitat();
 
         KeyAdapter textSimulationButtonHandler = new KeyAdapter() {
             public void keyPressed(KeyEvent e) {

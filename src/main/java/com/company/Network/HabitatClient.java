@@ -12,10 +12,8 @@ public class HabitatClient {
     private String IPEndpoint = "";
     private Socket socket = null;
 
-    public HabitatClient(String IPEndpoint, int port) {
-        this.port = port;
-        this.IPEndpoint = IPEndpoint;
-        connectToServer();
+    public HabitatClient() {
+        //connectToServer();
         //new UDPReceiver();
     }
 
@@ -27,12 +25,20 @@ public class HabitatClient {
         throw new NotImplementedException();
     }
 
-    private void connectToServer() {
-        try {
-            socket = new Socket(IPEndpoint, port);
-            new SocketConnectionProcessor(socket).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void connectToServer(String ipEndpoint, int port) throws IOException {
+        this.port = port;
+        this.IPEndpoint = ipEndpoint;
+        socket = new Socket(IPEndpoint, this.port);
+        SocketConnectionProcessor scp = new SocketConnectionProcessor(socket);
+        Thread socketThread = new Thread(scp);
+        socketThread.start();
+    }
+
+    public String getServerIP() {
+        return IPEndpoint;
+    }
+
+    public int getServerPort() {
+        return port;
     }
 }
