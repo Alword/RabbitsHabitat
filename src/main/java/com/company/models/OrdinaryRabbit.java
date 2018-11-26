@@ -14,10 +14,7 @@ public class OrdinaryRabbit extends BaseRabbit {
     private int dir = 0;
     private int steps = MIN_STEPS;
 
-    public static int OrdinaryCount = 0;
-
     public OrdinaryRabbit() throws IOException {
-        OrdinaryCount++;
         lifeTime = (int) ((Math.random() * 20) + 20);
 
         if (OrdinaryRabbits == null) {
@@ -86,7 +83,6 @@ public class OrdinaryRabbit extends BaseRabbit {
     public boolean isAppear() {
         boolean isAppear = lifeTime-- > 0;
         if (!isAppear) {
-            OrdinaryCount--;
             OrdinaryRabbits.remove(this);
         }
         return isAppear;

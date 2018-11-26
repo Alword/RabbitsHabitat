@@ -12,13 +12,12 @@ import java.util.Vector;
 ///The Super Rabbit's class
 public abstract class BaseRabbit implements IBehaviour, Serializable {
 
+    public static Vector<BaseRabbit> Rabbits = null;
+
     protected float speed = 1;
     protected Point margin = null;
 
-    public static Vector<BaseRabbit> Rabbits = null;
-
     protected int lifeTime;
-
     protected String myImagePath = null;
 
     public BaseRabbit() {
@@ -45,6 +44,10 @@ public abstract class BaseRabbit implements IBehaviour, Serializable {
     public void move() {
         margin.x++;
         margin.y++;
+    }
+
+    public void kill(){
+        lifeTime = 0;
     }
 
     public Point getMargin() {
