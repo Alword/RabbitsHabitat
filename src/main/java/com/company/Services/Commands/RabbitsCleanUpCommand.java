@@ -3,8 +3,7 @@ package com.company.Services.Commands;
 import com.company.models.OrdinaryRabbit;
 
 public class RabbitsCleanUpCommand extends BaseCommand {
-
-
+    
     public RabbitsCleanUpCommand() {
         super("cleanup");
     }

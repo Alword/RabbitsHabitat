@@ -1,24 +1,16 @@
 package com.company.Services;
 
-import com.company.Services.Commands.BaseCommand;
 import com.company.Services.Commands.ICommand;
-import com.company.Services.Commands.RabbitsCleanUpCommand;
-import com.company.models.OrdinaryRabbit;
-import com.sun.xml.internal.ws.commons.xmlutil.Converter;
-
-import java.io.BufferedReader;
+import com.company.Services.Commands.RabbitsCleanUpCommand;;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.lang.reflect.Array;
+import java.util.Vector;
 
 public class CommandParser extends Thread {
 
+    private Vector<ICommand> RabbitsCommands = null;
     private PipedReader pr;
-
-    PipedReader getStream() {
-        return pr;
-    }
 
     public CommandParser(PipedWriter pw) {
         connectPipes(pw);
@@ -26,7 +18,8 @@ public class CommandParser extends Thread {
     }
 
     private void initializeCommands() {
-        new RabbitsCleanUpCommand();
+        RabbitsCommands = new Vector<>();
+        RabbitsCommands.add(new RabbitsCleanUpCommand());
         //TODO more command
     }
 
@@ -38,11 +31,12 @@ public class CommandParser extends Thread {
         }
     }
 
+    //this is to read command
     public void run() {
 
         while (true) {
             try {
-                readCommand();
+                receiveCommand();
             } catch (IOException e) {
                 System.out.println("The job's finished.");
                 System.exit(0);
@@ -52,20 +46,17 @@ public class CommandParser extends Thread {
         }
     }
 
-    //This is to read command from pipe stream
-    private void readCommand() throws IOException, InterruptedException {
+    //This is to invoke command from pipe stream
+    private void receiveCommand() throws IOException, InterruptedException {
         Thread.sleep(10);//sleep is thread interruption
-
         String msg = readPipeMsg();
-
         if (msg != "") {
-
             System.out.println("Reading: " + msg);
-
             invokeCommand(msg);
         }
     }
 
+    //this is to read string message from pipeStream
     private String readPipeMsg() throws IOException {
         String msg = "";
         while (pr.ready()) {
@@ -78,14 +69,19 @@ public class CommandParser extends Thread {
         String name = null;
         String[] args = null;
 
+        //this is to convert message to command args and name format
         String[] stack = msg.split(" ");
         name = stack[0];
         args = new String[stack.length - 1];
         System.arraycopy(stack, 1, args, 0, args.length);
 
+        //Check the command name if matches then invoke
         for (ICommand command :
-                BaseCommand.Commands) {
+                RabbitsCommands) {
             command.invoke(name, args);
         }
     }
+
+    //Stream interface
+    PipedReader getStream() { return pr;}
 }
