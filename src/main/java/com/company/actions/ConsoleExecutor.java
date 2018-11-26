@@ -38,7 +38,6 @@ public class ConsoleExecutor implements ActionListener {
         consoleWindow.setVisible(true);
         consoleWindow.setSize(400, 400);
         consoleWindow.setLocation(200, 200);
-
     }
 
     private void removeRabbits(double percent) {

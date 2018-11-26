@@ -46,6 +46,10 @@ public abstract class BaseRabbit implements IBehaviour, Serializable {
         margin.y++;
     }
 
+    public void kill(){
+        lifeTime = 0;
+    }
+
     public Point getMargin() {
         return margin;
     }

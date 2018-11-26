@@ -1,5 +1,6 @@
 package com.company.Services;
 
+import com.company.models.OrdinaryRabbit;
 import com.sun.xml.internal.ws.commons.xmlutil.Converter;
 
 import java.io.BufferedReader;
@@ -27,10 +28,22 @@ public class CommandParser extends Thread {
         while (true) {
             try {
                 Thread.sleep(10);
-                while (pr.ready()){
+                String msg = "";
+                while (pr.ready()) {
                     //String msg += (char)pr.read();
+                    msg += (char) pr.read();
                 }
-                System.out.println("Reading: " + (char)pr.read());
+                if (msg != "") {
+                    System.out.println("Reading: " + msg);
+                    Integer x = Integer.parseInt(msg);
+                    x = (int)(OrdinaryRabbit.Rabbits.size() * x / 100.0);
+                    for (int i = 0; i < x; i++) {
+                        OrdinaryRabbit.Rabbits.get(i).kill();
+
+                    }
+
+                }
+
             } catch (IOException e) {
                 System.out.println("The job's finished.");
                 System.exit(0);
